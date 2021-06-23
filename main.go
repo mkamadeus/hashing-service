@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,24 +15,18 @@ func main() {
 	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		var result []string
 
-		// Hash [0..99], append to array
+		// Hash [0..99]
 		for i := 0; i < 100; i++ {
-			log.Println(i)
-
-			s := strconv.Itoa(i)
-			hashed, err := bcrypt.GenerateFromPassword([]byte(s), 2)
-
-			if err != nil {
+			go func(index int) error {
+				s := strconv.Itoa(index)
+				_, err := bcrypt.GenerateFromPassword([]byte(s), 2)
 				return err
-			}
-
-			result = append(result, string(hashed))
+			}(i)
 		}
 
 		// Return hash results
-		return c.JSON(result)
+		return c.JSON("OK")
 	})
 
 	app.Listen(":3000")
