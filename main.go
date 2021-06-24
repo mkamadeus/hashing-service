@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -9,12 +10,16 @@ import (
 
 func main() {
 	app := fiber.New()
+	req_no := 0
 
 	app.Get("/ping", func(c *fiber.Ctx) error {
+		log.Println("Received ping")
 		return c.JSON("pong")
 	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
+		log.Printf("Received req #%v", req_no)
+		req_no += 1
 
 		// Hash [0..99]
 		for i := 0; i < 100; i++ {

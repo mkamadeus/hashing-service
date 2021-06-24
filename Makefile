@@ -1,4 +1,4 @@
-commands : run build setup-cluster apply-deployment port-forward destroy-cluster test
+commands : run build make-cluster apply-deployment port-forward destroy-cluster test
 .PHONY : commands
 
 run:
@@ -7,6 +7,8 @@ run:
 
 build:
 	go build -o main.out main.go 
+
+setup: make-cluster apply-deployment
 
 make-cluster:
 	kind create cluster
@@ -21,4 +23,4 @@ destroy-cluster:
 	kind delete cluster
 	
 test:
-	echo "GET http://localhost:3000" | vegeta attack -duration=10s | tee test.log | vegeta report
+	echo "GET http://localhost:3000" | vegeta attack -duration=5s -rate=5 | tee result.bin | vegeta report > "./logs/$(shell date +%s).log"
