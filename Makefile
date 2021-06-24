@@ -1,4 +1,4 @@
-commands : run build setup-cluster destroy-cluster test
+commands : run build setup-cluster apply-deployment port-forward destroy-cluster test
 .PHONY : commands
 
 run:
@@ -8,9 +8,14 @@ run:
 build:
 	go build -o main.out main.go 
 
-setup-cluster:
+make-cluster:
 	kind create cluster
+
+apply-deployment:
 	kubectl apply -f k8s
+
+port-forward:
+	kubectl port-forward deployments/hashing-service 3000:3000
 
 destroy-cluster:
 	kind delete cluster

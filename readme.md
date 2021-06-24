@@ -51,7 +51,7 @@ After applying the Kubernetes configuration, several things should be made:
 To test the service from the host machine, port-forward your services by typing:
 
 ```bash
-kubectl port-forward deployments/hashing-service
+kubectl port-forward deployments/hashing-service 3000:3000
 ```
 
 After running the previous command, you can run `make test` to do a stress test using Vegeta.
