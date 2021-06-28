@@ -23,4 +23,6 @@ destroy-cluster:
 	kind delete cluster
 	
 test:
-	echo "GET http://localhost:3000" | vegeta attack -duration=5s -rate=5 | tee result.bin | vegeta report > "./logs/$(shell date +%s).log"
+	echo "GET http://localhost:3000" | vegeta attack -duration=10s -rate=3 -timeout=0 | tee result.bin | vegeta report > "./$(shell date +%s).log
+
+# echo "GET http://10.96.153.58:3000" | ./vegeta attack -duration=60s -rate=2 | tee result.bin | ./vegeta report > "./$(date +%s).log"
